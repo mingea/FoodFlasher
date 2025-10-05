@@ -6,3 +6,5 @@ sky:
     database: food_flasher
     username: root
     password: 123456
+  upload:
+    local: ../files/
