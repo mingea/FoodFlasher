@@ -43,4 +43,9 @@ public interface DishMapper {
      * 根据id删除菜品数据
      */
     void deleteByIds(List<Long> ids);
+
+    /**
+     * 修改菜品数据
+     */
+    void update(Dish dish);
 }
