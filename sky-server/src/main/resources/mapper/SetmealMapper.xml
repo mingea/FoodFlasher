@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.SetmealMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into setmeal (category_id, name, price, status,
+        description, image, create_time, update_time, create_user, update_user)
+        values (#{categoryId}, #{name}, #{price}, #{status},
+        #{description}, #{image}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+    </insert>
+    <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
+        select
+        setmeal.* ,
+        category.name as categoryName
+        from
+            setmeal
+        left join category on setmeal.category_id = category.id
+        <where>
+            <if test="name != null and name != ''">
+                and setmeal.name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId != null">
+                and setmeal.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and setmeal.status = #{status}
+            </if>
+        </where>
+        order by setmeal.update_time desc
+    </select>
+
+    <select id="getByIdWithDish" resultType="com.sky.vo.SetmealVO">
+        select
+                setmeal.*,
+                category.name as categoryName,
+                dish.id as setmealDishes.id,
+                dish.name as setmealDishes.name,
+                dish.price as setmealDishes.price,
+                dish.image as setmealDishes.image,
+                dish.description as setmealDishes.description,
+                dish.status as setmealDishes.status,
+                dish.create_time as setmealDishes.create_time,
+                dish.update_time as setmealDishes.update_time,
+                dish.create_user as setmealDishes.create_user,
+                dish.update_user as setmealDishes.update_user
+    </select>
+
+    <update id="update">
+        update setmeal
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+</mapper>
