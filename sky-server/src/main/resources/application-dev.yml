@@ -8,3 +8,8 @@ sky:
     password: 123456
   upload:
     local: ../files/
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 0
